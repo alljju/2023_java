@@ -1,48 +1,37 @@
 package Week04_03;
 
-import javax.swing.*;
 import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import javax.swing.*;
 
-public class Card extends JFrame {
-    private BufferedImage image;
-
-    public Card() {
-        try {
-            // 이미지 파일 로드 (파일 경로를 적절히 수정하세요)
-            image = ImageIO.read(new File("yang.jpg"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        setTitle("나의 명함");
-        setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-    }
-
-    @Override
-    public void paint(Graphics g) {
-        super.paint(g);
-
-        // 텍스트 그리기
-        g.setFont(new Font("Arial", Font.PLAIN, 20));
-        g.drawString("이름: 홍길동", 50, 50);
-        g.drawString("직책: 개발자", 50, 80);
-        g.drawString("이메일: hong@example.com", 50, 110);
-        g.drawString("전화번호: 123-456-7890", 50, 140);
-
-        // 이미지 그리기
-        if (image != null) {
-            g.drawImage(image, 250, 20, 100, 100, this);
-        }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new Card());
-    }
+class BusinessCard extends JPanel {
+	private ImageIcon imageIcon;
+	
+	public BusinessCard(){
+	   // 이미지 파일을 로드합니다. 이미지 파일의 경로를 정확하게 지정
+       imageIcon = new ImageIcon("yang.jpg"); 
+//       setOpaque(false); //배경 투명하게 지정
+	}
+	public void paintComponent(Graphics g){
+		super.paintComponent(g);
+		g.drawImage(imageIcon.getImage(), 20, 20, 80, 80, this);		
+		g.drawString("양정원", 150, 40);
+		g.drawString("프로젝트 매니저", 150, 60);
+		g.drawString("덕성주식회사", 150, 80);
+	}
 }
 
+class MyFrame extends JFrame{
+	public MyFrame(){
+		setSize(600,180);
+		setTitle("BusinessCard");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		add(new BusinessCard());
+		setVisible(true);
+	}
+}
+
+public class Card {
+	public static void main(String[] arge){
+		MyFrame F = new MyFrame();
+	}
+}
