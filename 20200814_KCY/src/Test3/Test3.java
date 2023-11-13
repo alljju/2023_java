@@ -6,23 +6,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
-class Contact {
-    private String name;
+class Contact1 {
+	private String name;
     private String phoneNumber;
     private String address;
-    private Map<String, String> ContackBook;
 
-    public Contact(String name, String phoneNumber, String address) {
-    	
+    public Contact1(String name, String phoneNumber, String address) {
         this.name = name;
         this.phoneNumber = phoneNumber;
         this.address = address;
@@ -36,19 +28,18 @@ class Contact {
     }
 }
 
-public class Test3{
-    private static final Map<String, String> ContactBook = null;
+public class Test3 {
+	
 	private JFrame frame;
     private JTextField nameField;
     private JTextField phoneField;
     private JTextField addressField;
-    private ArrayList<Contact> contactList;
-    String filePath = "phonebook.txt";
-    
-    
+    private JTextArea displayArea;
+    private ArrayList<Contact1> contactList;
+    private static final String FILE_PATH = "contacts.txt";
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
+    	EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
                 	Test3 window = new Test3();
@@ -61,112 +52,40 @@ public class Test3{
         });
     }
 
-    public Test3() {
-        contactList = new ArrayList<>();
-        ArrayList<Double> scores = new ArrayList<>();
-
-        frame = new JFrame();
-        frame.setTitle("덕성여대화이팅");
-        frame.setBounds(100, 100, 450, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
-
-        JLabel lblNewLabel = new JLabel("이름");
-        lblNewLabel.setBounds(29, 32, 57, 15);
-        frame.getContentPane().add(lblNewLabel);
-
-        JLabel lblNewLabel_1 = new JLabel("학번");
-        lblNewLabel_1.setBounds(29, 67, 57, 15);
-        frame.getContentPane().add(lblNewLabel_1);
-
-        JLabel lblNewLabel_2 = new JLabel("성적");
-        lblNewLabel_2.setBounds(29, 102, 57, 15);
-        frame.getContentPane().add(lblNewLabel_2);
-
-        nameField = new JTextField();
-        nameField.setBounds(98, 29, 116, 21);
-        frame.getContentPane().add(nameField);
-        nameField.setColumns(10);
-
-        phoneField = new JTextField();
-        phoneField.setBounds(98, 64, 116, 21);
-        frame.getContentPane().add(phoneField);
-        phoneField.setColumns(10);
-
-        addressField = new JTextField();
-        addressField.setBounds(98, 99, 116, 21);
-        frame.getContentPane().add(addressField);
-        addressField.setColumns(10);
-        
-        double total = 0;
-        for (double addressField : scores) {
-            total += addressField;
+    // Add this method to save contacts to a file
+    private static void saveContactsToFile(ArrayList<Contact1> contacts) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_PATH))) {
+            oos.writeObject(contacts);
+            System.out.println("Contacts saved to file.");
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-
-        // 평균을 계산합니다.
-        double average = total / scores.size();
-        
-        System.out.println("나머지 점수들의 평균: " + average);
-
-        
-
-        JButton btnNewButton = new JButton("등록하기");
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String name = nameField.getText();
-                String phoneNumber = phoneField.getText();
-                String address = addressField.getText();
-                
-
-                Contact contact = new ContactBook(name, phoneNumber, address);
-                saveContactBook();
-                
-                for (Map.Entry<String, String> entry : ContactBook.entrySet()) {
-                    if (entry.getValue().equals(phoneNumber)) {
-                        name = entry.getKey();
-                        break;
-                    }
-                }
-                
-            }
-        });
-        btnNewButton.setBounds(29, 150, 185, 23);
-        frame.getContentPane().add(btnNewButton);
-
-        
     }
-    
-        private Map<String, String> LoadContactBook() {
-            Map<String, String> contact = new HashMap<>();
-            try (BufferedReader reader = new BufferedReader(new FileReader("phonebook.txt"))) {
-                String line;
-                while ((line = reader.readLine()) != null) {
-                    String[] parts = line.split(",");
-                    if (parts.length == 2) {
-                    	contact.put(parts[0], parts[1]);
-                    }
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return contact;
+
+    // Add this method to load contacts from a file
+    private static ArrayList<Contact1> loadContactsFromFile() {
+        ArrayList<Contact1> contacts = new ArrayList<>();
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_PATH))) {
+            contacts = (ArrayList<Contact1>) ois.readObject();
+            System.out.println("Contacts loaded from file.");
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
         }
+        return contacts;
+    }
 
-        private void saveContactBook() {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter("phonebook.txt"))) {
-                for (Map.Entry<String, String> entry : ContactBook.entrySet()) {
-                    writer.write(entry.getKey() + "," + entry.getValue());
-                    writer.newLine();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+    // Add this method to calculate the average of grades
+    private static double calculateAverageGrade(ArrayList<Contact1> contacts) {
+        double totalGrade = 0;
+        for (Contact1 contact : contacts) {
+            // Assuming the "address" field in Contact represents the grade
+            totalGrade += Double.parseDouble(contact.getAddress());
         }
+        return totalGrade / contacts.size();
+    }
 
-
-    
+    // Add this method to get the total number of contacts
+    private static int getTotalContacts(ArrayList<Contact1> contacts) {
+        return contacts.size();
+    }
 }
-
-
-
-

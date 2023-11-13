@@ -67,31 +67,7 @@ public class UserInform {
 
 
 
-                    // 사용자 정보를 CSV 형식으로 파일에 저장
-
-                    writer.write(number + "," + name + "," + phoneNumber + "," + email);
-
-                    writer.newLine();
-
-                    writer.close();
-
-                    System.out.println("사용자 정보가 파일에 저장되었습니다.");
-
-
-
-                } catch (IOException e) {
-
-                    e.printStackTrace();
-
-                }
-
-            } else if ("0".equals(choice)) {
-
-                // 사용자로부터 검색할 번호 입력
-
-                System.out.print("검색할 번호를 입력하세요: ");
-
-                String searchNumber = scanner.nextLine();
+                    ,
 
 
 
@@ -146,9 +122,8 @@ public class UserInform {
                 System.out.println("잘못된 선택입니다. 다시 시도하세요.");
 
             }
-
+            }
         }
 
     }
-
 }
