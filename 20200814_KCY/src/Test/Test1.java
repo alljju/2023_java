@@ -1,120 +1,94 @@
 package Test;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.ArrayList;
+import java.awt.EventQueue;
+import java.awt.Font;
 
-class Contact {
-    private String name;
-    private String phoneNumber;
-    private String address;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
-    public Contact(String name, String phoneNumber, String address) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-        
-        System.out.println("이름: " + name + ", 학번: " + phoneNumber + ", 성적: " + address);
-    }
+public class Form extends JFrame{
+	private JPanel contentPane;
+   
+    private JTextField textField_01;
+    private JTextField textField_02;
+    private JTextField textField_03;
+	
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable(){
+			public void run() {
+				try {
+					Form frame = new Form();
+					frame.setVisible(true);
+				} catch(Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	public Form(){
+		setTitle("덕성여대 화이팅");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 360, 252);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel label_00 = new JLabel("학생 등록하기");
+        label_00.setBounds(12, 30, 100, 15);
+        label_00.setFont(new Font("맑은고딕", Font.BOLD, 15)); 
+	    label_00.setHorizontalAlignment(JLabel.CENTER);
+	    contentPane.add(label_00);
 
-    @Override
-    public String toString() {
-        return "이름: " + name + ", 학번: " + phoneNumber + ", 성적: " + address;
-    }
+	    JLabel label_01 = new JLabel("이름");
+	    label_01.setBounds(12, 60, 57, 15);
+	    contentPane.add(label_01);
+
+	    JLabel label_02 = new JLabel("학번");
+	    label_02.setBounds(12, 90, 57, 15);
+	    contentPane.add(label_02);
+
+	    JLabel label_03 = new JLabel("성적");
+	    label_03.setBounds(12, 120, 57, 15);
+	    contentPane.add(label_03);
+
+	    textField_01 = new JTextField();
+	    textField_01.setBounds(81, 60, 243, 21);
+	    contentPane.add(textField_01);
+	    textField_01.setColumns(10);
+
+	    textField_02 = new JTextField();
+	    textField_02.setColumns(10);
+	    textField_02.setBounds(81, 90, 243, 21);
+	    contentPane.add(textField_02);
+
+	    textField_03 = new JTextField();
+	    textField_03.setColumns(10);
+	    textField_03.setBounds(81, 120, 243, 21);
+	    contentPane.add(textField_03);
+
+	    JButton button_01 = new JButton("등록하기");
+	    button_01.setBounds(100, 181, 97, 23);
+		contentPane.add(button_01);
+		button_01.addActionListener(e->{
+			String name = textField_01.getText();
+			String num = textField_02.getText();
+			String grade = textField_03.getText();
+			System.out.println("이름: "+name+" 학번: "+num+" 성적: "+grade);
+		});
+		
+		
+		JButton button_02 = new JButton("취소");
+		button_02.setBounds(227, 181, 97, 23);
+		contentPane.add(button_02);
+		button_02.addActionListener(e->{
+			System.exit(0);
+		});
+	}
 }
-
-public class Test1{
-    private JFrame frame;
-    private JTextField nameField;
-    private JTextField phoneField;
-    private JTextField addressField;
-    private JTextArea displayArea;
-    private ArrayList<Contact> contactList;
-
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                	Test1 window = new Test1();
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            
-        });
-    }
-
-    public Test1() {
-        contactList = new ArrayList<>();
-
-        frame = new JFrame();
-        frame.setTitle("덕성여대화이팅");
-        frame.setBounds(100, 100, 450, 300);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.getContentPane().setLayout(null);
-
-        JLabel lblNewLabel = new JLabel("이름");
-        lblNewLabel.setBounds(29, 32, 57, 15);
-        frame.getContentPane().add(lblNewLabel);
-
-        JLabel lblNewLabel_1 = new JLabel("학번");
-        lblNewLabel_1.setBounds(29, 67, 57, 15);
-        frame.getContentPane().add(lblNewLabel_1);
-
-        JLabel lblNewLabel_2 = new JLabel("성적");
-        lblNewLabel_2.setBounds(29, 102, 57, 15);
-        frame.getContentPane().add(lblNewLabel_2);
-
-        nameField = new JTextField();
-        nameField.setBounds(98, 29, 116, 21);
-        frame.getContentPane().add(nameField);
-        nameField.setColumns(10);
-
-        phoneField = new JTextField();
-        phoneField.setBounds(98, 64, 116, 21);
-        frame.getContentPane().add(phoneField);
-        phoneField.setColumns(10);
-
-        addressField = new JTextField();
-        addressField.setBounds(98, 99, 116, 21);
-        frame.getContentPane().add(addressField);
-        addressField.setColumns(10);
-
-        JButton btnNewButton = new JButton("등록하기");
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                String name = nameField.getText();
-                String phoneNumber = phoneField.getText();
-                String address = addressField.getText();
-
-                Contact contact = new Contact(name, phoneNumber, address);
-                contactList.add(contact);
-
-                displayContacts();
-            }
-        });
-        btnNewButton.setBounds(29, 150, 185, 23);
-        frame.getContentPane().add(btnNewButton);
-
-        displayArea = new JTextArea();
-        displayArea.setEditable(false);
-        displayArea.setBounds(254, 29, 160, 144);
-        frame.getContentPane().add(displayArea);
-        
-    }
-
-    private void displayContacts() {
-        displayArea.setText("");
-        
-
-        for (Contact contact : contactList) {
-            displayArea.append(contact.toString() + "\n");
-        }
-    }
-    
-}
-
 
