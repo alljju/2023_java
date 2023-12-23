@@ -156,7 +156,7 @@ public class MyFrame extends JFrame {
             public void actionPerformed(ActionEvent event) {
                 String searchKeyword = search.getText();
                 try {
-                	String query = "SELECT * FROM Student WHERE stuId Like '%"+searchKeyword+"%'";
+                	String query = "SELECT * FROM Student WHERE name Like '%"+searchKeyword+"%'";
                     ResultSet searchResult = stmt.executeQuery(query);
                     
                     if (searchResult.next()) {
